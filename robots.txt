@@ -1,0 +1,7 @@
+# Permite que los buscadores lean todo el sitio
+User-agent: *
+Allow: /
+
+# Cuando generes el sitemap (abrí tusitio.com/?sitemap y descargalo), dejalo al lado de index.html,
+# sacale el # a la línea de abajo y poné tu dominio:
+# Sitemap: https://tudominio.com/sitemap.xml

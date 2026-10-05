@@ -85,9 +85,21 @@ linkedin:
 web:
 direccion: Santa Rosa, La Pampa, Argentina
 # Texto chico al pie
-pie: © 2026 Rider7. Todos los derechos reservados.
+pie: <a href="https://jeanphillippe.com" target="_blank"><img src="https://jeanphillippe.com/madeby-light.png" alt="Hecho en La Pampa por Jean Phillippe"></a>
 # Mostrar "Hecho con Rider7" al pie: si | no
 credito: no
+
+
+#  ---------- SEO (Google) ----------
+# Idioma del sitio (es, pt, en...)
+idioma: es
+# Tipo de negocio para Google (schema.org). Ejemplos: Organization, LocalBusiness, Store,
+# TattooParlor, BeautySalon, Restaurant, ProfessionalService, ArtGallery, Photograph
+seo_tipo: Organization
+# Imagen para compartir y para Google (vacío = la portada del primer libro)
+seo_imagen:
+
+
 
 
 #  ---------- De dónde salen las imágenes ----------
