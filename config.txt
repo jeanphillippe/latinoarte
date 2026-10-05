@@ -95,7 +95,7 @@ credito: no
 #   local  = solo el listado de carpetas del servidor (prueba en tu compu, hosting con Apache)
 #   github = lee las carpetas del repositorio con la API pública de GitHub
 #   drive  = lee las carpetas desde una carpeta pública de Google Drive
-fuente: local
+fuente: auto
 
 # Carpeta donde están las subcarpetas con imágenes
 carpeta_contenido: contenido
