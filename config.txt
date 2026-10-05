@@ -24,7 +24,7 @@ favicon:
 # modo: oscuro | claro | auto  (auto = según el sistema del visitante)
 modo: oscuro
 # Mostrar el botón para cambiar entre claro y oscuro: si | no
-selector_modo: si
+selector_modo: no
 
 color_fondo_oscuro: #0f0f12
 color_fondo_claro: #f6f3ee
