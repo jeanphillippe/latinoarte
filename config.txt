@@ -33,7 +33,7 @@ color_texto_claro: #1b1a18
 color_acento: #f50000
 
 # Tipografías de Google Fonts (escribí el nombre tal cual aparece en fonts.google.com)
-fuente_titulos: Water Brush
+fuente_titulos: Comforter Brush
 fuente_texto: Clarity City
 
 # Cabecera (siempre en una fila, del alto del logo):
@@ -76,7 +76,7 @@ whatsapp: 5492954469610
 whatsapp_boton: si
 # Mensaje que aparece ya escrito al abrir el chat (opcional)
 whatsapp_mensaje: Hola, vi el sitio y quería consultar
-instagram: latinoarte
+instagram: latinoarte13
 facebook:
 tiktok:
 youtube: latinoarte
