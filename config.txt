@@ -39,7 +39,8 @@ fuente_texto: Clarity City
 # Cabecera (siempre en una fila, del alto del logo):
 #   centrada = logo a la izquierda y menú al centro | lateral = logo a la izquierda y menú a la derecha
 cabecera: centrada
-
+titulos_tamano: 140
+titulos_peso: 700
 
 #  ---------- Inicio (home) ----------
 # Texto de bienvenida arriba de las portadas (opcional, vacío = no aparece)
