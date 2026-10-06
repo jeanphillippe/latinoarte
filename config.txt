@@ -63,7 +63,7 @@ tapa_dura: no
 # Velocidad al pasar la hoja, en milisegundos
 velocidad: 800
 # Desenfoque del fondo, en píxeles
-desenfoque: 40
+desenfoque: 10
 # Color de las hojas (se ve si la imagen no cubre toda la página)
 color_hoja: #ffffff
 # Cómo se acomodan las imágenes con distinta proporción dentro de una misma carpeta:
