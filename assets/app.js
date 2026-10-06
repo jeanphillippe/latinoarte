@@ -93,6 +93,14 @@
       return r.text();
     });
   }
+  /* Sube al inicio de la página al instante. El scroll suave del CSS se cortaba a mitad de camino
+     cuando el libro cambia el alto de la página mientras se arma, y había que subir a mano. */
+  function toTop() {
+    var h = document.documentElement;
+    h.style.scrollBehavior = 'auto';
+    window.scrollTo(0, 0);
+    h.style.scrollBehavior = '';
+  }
   function debounce(fn, ms) { var t; return function () { clearTimeout(t); t = setTimeout(fn, ms); }; }
   function loadImage(src) {
     return new Promise(function (res, rej) {
@@ -673,7 +681,7 @@
   function renderCovers(nodes) {
     $('.covers').innerHTML = nodes.map(coverHTML).join('');
     revealCovers();
-    parallaxEls = $$('.cover');
+    parallaxEls = $$('.cover').slice(1); // la primera queda fija: márgenes parejos con la cabecera
     requestParallax();
     $$('.cover-book img').forEach(function (img) {
       function fit() { if (img.naturalWidth) img.parentNode.style.setProperty('--ratio', img.naturalWidth + '/' + img.naturalHeight); }
@@ -710,7 +718,7 @@
     } : { noindex: !!noindex });
     updateWhatsApp(group ? group.titulo : '', group ? group.path : '');
     if (scrollToContact) setTimeout(function () { $('#contacto').scrollIntoView({ behavior: 'smooth' }); }, 50);
-    else window.scrollTo(0, 0);
+    else toTop();
   }
 
   /* ---------------- Footer ---------------- */
@@ -799,6 +807,7 @@
 
   function openBook(col, startPage) {
     if (state.col === col && state.flip) {
+      toTop();
       if (startPage !== state.page) { state.flip.turnToPage(normalizePage(startPage)); state.page = state.flip.getCurrentPageIndex(); afterFlip(); }
       return;
     }
@@ -807,7 +816,7 @@
     show('book');
     setActive(col.path);
     closeMenu();
-    window.scrollTo(0, 0);
+    toTop();
     $('.book-title').textContent = col.titulo;
     updateSEO({
       title: col.titulo, path: col.path, node: col, image: col.portada,
@@ -834,6 +843,7 @@
     ready.then(function () {
       if (state.col !== col) return;
       buildFlip(Math.max(0, Math.min(startPage || 0, col.imagenes.length - 1)));
+      toTop();
     });
   }
 
@@ -1194,6 +1204,7 @@
   /* ---------------- Inicio de la app ---------------- */
 
   function start() {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     bindEvents();
     showMessage('', '', true);
     fetchText('config.txt').then(parseTxt).catch(function () { return {}; }).then(function (cfg) {
