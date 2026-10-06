@@ -15,6 +15,7 @@
   --font-title: Georgia, "Times New Roman", serif;
   --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --logo-h: 48px;
+  --par-k: 1;
   --title-scale: 1;
   --title-weight: 600;
   --header-h: 72px;
@@ -342,9 +343,14 @@ main { min-height: calc(100vh - var(--header-h)); }
 /* Parallax: cada capa se desplaza distinto según --p (lo calcula app.js al hacer scroll).
    Usa la propiedad translate para no pisar los giros y escalas de arriba. */
 .parallax .cover { --p: 0; --par-bg: 9%; --par-art: 56px; --par-info: 22px; }
-.parallax .cover-bg { translate: 0 calc(var(--p) * var(--par-bg) * -1); will-change: translate; }
-.parallax .cover-art { translate: 0 calc(var(--p) * var(--par-art)); will-change: translate; }
-.parallax .cover-info { translate: 0 calc(var(--p) * var(--par-info)); }
+/* --par-k = parallax_intensidad / 100. Con más intensidad el fondo se amplía un poco para que no se vean sus bordes */
+.parallax .cover-bg {
+  translate: 0 calc(var(--p) * var(--par-bg) * var(--par-k) * -1);
+  scale: max(1, calc(1 + (var(--par-k) - 1) * .14));
+  will-change: translate;
+}
+.parallax .cover-art { translate: 0 calc(var(--p) * var(--par-art) * var(--par-k)); will-change: translate; }
+.parallax .cover-info { translate: 0 calc(var(--p) * var(--par-info) * var(--par-k)); }
 
 /* ---------- Libro ---------- */
 body.is-book .site-header { background: color-mix(in srgb, var(--bg) 35%, transparent); }

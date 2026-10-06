@@ -20,7 +20,7 @@
     cabecera: 'centrada',
     inicio_titulo: '', inicio_texto: '', inicio_boton: 'Entrar',
     paginas: 'auto', tapa: 'si', tapa_dura: 'no', velocidad: '800', desenfoque: '40', color_hoja: '#ffffff',
-    ajuste: 'llenar', parallax: 'si',
+    ajuste: 'llenar', parallax: 'si', parallax_intensidad: '100',
     contacto_titulo: 'Contacto', contacto_texto: '',
     whatsapp_boton: 'si', whatsapp_mensaje: 'Hola! Quería consultar',
     whatsapp_mensaje_libro: 'Hola! Quería consultar sobre {titulo} que vi en la web',
@@ -160,6 +160,7 @@
     root.setProperty('--page', c.color_hoja);
     root.setProperty('--blur', num(c.desenfoque, 40) + 'px');
     root.setProperty('--logo-h', num(c.logo_alto, 48) + 'px');
+    root.setProperty('--par-k', String(parallaxK()));
     root.setProperty('--font-title', '"' + c.fuente_titulos + '", Georgia, serif');
     root.setProperty('--title-scale', String(Math.min(4, Math.max(0.3, num(c.titulos_tamano, 100) / 100))));
     root.setProperty('--title-weight', String(Math.round(Math.min(900, Math.max(100, num(c.titulos_peso, 600))))));
@@ -660,8 +661,10 @@
     parallaxTick = true;
     requestAnimationFrame(parallax);
   }
+  // parallax_intensidad en porcentaje: 100 = normal, 200 = el doble, 0 = sin efecto
+  function parallaxK() { return Math.min(5, Math.max(0, num(state.cfg.parallax_intensidad, 100) / 100)); }
   function setupParallax() {
-    if (!yes(state.cfg.parallax) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!yes(state.cfg.parallax) || !parallaxK() || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     document.body.classList.add('parallax');
     window.addEventListener('scroll', requestParallax, { passive: true });
     window.addEventListener('resize', requestParallax);

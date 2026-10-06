@@ -50,6 +50,7 @@ inicio_texto:
 inicio_boton: Entrar
 # Efecto de profundidad al hacer scroll en las portadas: si | no
 parallax: si
+parallax_intensidad: 300
 
 
 #  ---------- Libro (flipbook) ----------
