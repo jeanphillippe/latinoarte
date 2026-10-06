@@ -15,7 +15,7 @@ logo: logo.png
 # Logo alternativo para modo claro (opcional). Si lo dejás vacío se usa el mismo.
 logo_claro:
 # Alto del logo en píxeles
-logo_alto: 48
+logo_alto: 68
 # Ícono de la pestaña del navegador (opcional, por defecto usa el logo)
 favicon:
 
