@@ -339,6 +339,13 @@ main { min-height: calc(100vh - var(--header-h)); }
 .cover-btn svg { width: 18px; height: 18px; stroke-width: 2.2; }
 .cover:hover .cover-btn { gap: 16px; }
 
+/* Parallax: cada capa se desplaza distinto según --p (lo calcula app.js al hacer scroll).
+   Usa la propiedad translate para no pisar los giros y escalas de arriba. */
+.parallax .cover { --p: 0; --par-bg: 9%; --par-art: 56px; --par-info: 22px; }
+.parallax .cover-bg { translate: 0 calc(var(--p) * var(--par-bg) * -1); will-change: translate; }
+.parallax .cover-art { translate: 0 calc(var(--p) * var(--par-art)); will-change: translate; }
+.parallax .cover-info { translate: 0 calc(var(--p) * var(--par-info)); }
+
 /* ---------- Libro ---------- */
 body.is-book .site-header { background: color-mix(in srgb, var(--bg) 35%, transparent); }
 body.is-book main { min-height: auto; }
@@ -389,6 +396,8 @@ body.is-book main { min-height: auto; }
   user-select: none; -webkit-user-drag: none; pointer-events: none;
 }
 .page img.loaded { opacity: 1; }
+/* ajuste: llenar -> todas las páginas del mismo tamaño, recortando lo que sobra */
+.book-holder.fill .page img { object-fit: cover; object-position: center; }
 .page .page-loader {
   position: absolute; width: 28px; height: 28px;
   border: 3px solid rgba(0,0,0,.1); border-top-color: var(--accent);
@@ -541,6 +550,7 @@ body.is-book .site-footer { background: color-mix(in srgb, var(--bg) 82%, transp
   .cover:nth-child(even) .cover-art { order: 0; }
   .cover-book, .cover:nth-child(even) .cover-book { max-width: 62vw; transform: rotateY(-8deg); transform-origin: left center; }
   .cover-info p { margin-left: auto; margin-right: auto; }
+  .parallax .cover { --par-art: 26px; --par-info: 12px; }
   .view-book { padding: 4px 6px 8px; }
   .book-back span { display: none; }
   .book-ui { opacity: 1; }

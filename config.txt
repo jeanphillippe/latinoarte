@@ -48,6 +48,8 @@ inicio_titulo:
 inicio_texto:
 # Texto del botón de cada portada
 inicio_boton: Entrar
+# Efecto de profundidad al hacer scroll en las portadas: si | no
+parallax: si
 
 
 #  ---------- Libro (flipbook) ----------
@@ -63,6 +65,12 @@ velocidad: 800
 desenfoque: 40
 # Color de las hojas (se ve si la imagen no cubre toda la página)
 color_hoja: #ffffff
+# Cómo se acomodan las imágenes con distinta proporción dentro de una misma carpeta:
+#   llenar   = todas las páginas iguales: amplía y recorta lo que sobra (recomendado)
+#   completa = muestra cada imagen entera, con bordes del color de la hoja si no coincide
+# La forma del libro la sigue definiendo la primera imagen. También se puede poner en el info.txt de una carpeta.
+ajuste: llenar
+
 
 
 #  ---------- Contacto (footer) ----------

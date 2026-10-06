@@ -20,6 +20,7 @@
     cabecera: 'centrada',
     inicio_titulo: '', inicio_texto: '', inicio_boton: 'Entrar',
     paginas: 'auto', tapa: 'si', tapa_dura: 'no', velocidad: '800', desenfoque: '40', color_hoja: '#ffffff',
+    ajuste: 'llenar', parallax: 'si',
     contacto_titulo: 'Contacto', contacto_texto: '',
     whatsapp_boton: 'si', whatsapp_mensaje: 'Hola! Quería consultar',
     whatsapp_mensaje_libro: 'Hola! Quería consultar sobre {titulo} que vi en la web',
@@ -50,6 +51,8 @@
   }
   function yes(v) { return /^(s[ií]|yes|true|1|on)$/i.test(String(v || '').trim()); }
   function num(v, d) { var n = parseFloat(v); return isFinite(n) ? n : d; }
+  // ajuste: llenar (recorta para que todas las páginas queden iguales) | completa (muestra la imagen entera)
+  function isFill(v) { return /^(llenar|rellenar|fill|cover|recortar)$/i.test(String(v || '').trim()); }
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -230,6 +233,7 @@
       }
       base.type = 'book';
       base.imagenes = images.slice();
+      if (info.ajuste) base.ajuste = info.ajuste;
       base.portada = (extra && extra.portada) || portada;
       base.fondo = images[0];
       return base;
@@ -637,9 +641,37 @@
     els.forEach(function (el) { revealIO.observe(el); });
   }
 
+  /* Parallax del inicio: fondo, libro y texto se mueven a distinta velocidad al hacer scroll.
+     Cada portada recibe --p (de 1 = entrando por abajo, a -1 = saliendo por arriba) y el CSS hace el resto. */
+  var parallaxEls = [], parallaxTick = false;
+  function parallax() {
+    parallaxTick = false;
+    if (!document.body.classList.contains('parallax') || $('.view-home').hidden) return;
+    var vh = window.innerHeight;
+    parallaxEls.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.bottom < -50 || r.top > vh + 50) return;
+      var p = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
+      el.style.setProperty('--p', Math.max(-1, Math.min(1, p)).toFixed(4));
+    });
+  }
+  function requestParallax() {
+    if (parallaxTick) return;
+    parallaxTick = true;
+    requestAnimationFrame(parallax);
+  }
+  function setupParallax() {
+    if (!yes(state.cfg.parallax) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.body.classList.add('parallax');
+    window.addEventListener('scroll', requestParallax, { passive: true });
+    window.addEventListener('resize', requestParallax);
+  }
+
   function renderCovers(nodes) {
     $('.covers').innerHTML = nodes.map(coverHTML).join('');
     revealCovers();
+    parallaxEls = $$('.cover');
+    requestParallax();
     $$('.cover-book img').forEach(function (img) {
       function fit() { if (img.naturalWidth) img.parentNode.style.setProperty('--ratio', img.naturalWidth + '/' + img.naturalHeight); }
       if (img.complete) fit(); else img.addEventListener('load', fit);
@@ -830,6 +862,7 @@
     destroyFlip();
     var L = state.layout = computeLayout();
     var holder = $('.book-holder');
+    holder.classList.toggle('fill', isFill(col.ajuste || c.ajuste));
     var w = L.two ? L.pw * 2 : L.pw;
     $('.book-stage').style.height = L.ph + 'px';
     holder.style.width = w + 'px';
@@ -1172,6 +1205,7 @@
       applyConfig(c);
       renderFooter();
       setupWhatsApp();
+      setupParallax();
       return loadTree();
     }).then(function (nodes) {
       state.tree = finishTree(nodes || [], null);
