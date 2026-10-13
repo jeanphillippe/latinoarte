@@ -124,7 +124,7 @@ carpeta_contenido: contenido
 
 # Repositorio de GitHub (usuario/repositorio). Necesario en Cloudflare Pages o con dominio propio.
 # Con una dirección usuario.github.io se detecta solo. El repositorio tiene que ser público.
-github_repositorio:
+github_repositorio: jeanphillippe/latinoarte
 # Rama del repositorio (vacío = la rama principal)
 github_rama:
 
