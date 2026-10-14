@@ -1,0 +1,254 @@
+/* =========================================================
+   LATINO ARTE · capa de tema sobre Rider7
+   Estética "tattoo flash": esténcil, destellos, sello, pincel y cinta.
+   Se carga después de app.css; si se quita, el sitio vuelve a Rider7 puro.
+   ========================================================= */
+
+:root {
+  --la-ink: #0f0f12;
+  --la-cream: #f2efe9;
+  --la-display: "Bebas Neue", "Clarity City", Impact, sans-serif;
+}
+
+/* ---------- Portada: textura de grano + trama de puntos (serigrafía) ---------- */
+.cover::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(circle at center, rgba(0,0,0,.55) 1.1px, transparent 1.6px);
+  background-size: 180px 180px, 7px 7px;
+  mix-blend-mode: overlay;
+  opacity: .5;
+}
+
+/* ---------- Numeración 01 / 04 ---------- */
+.la-num {
+  position: absolute; z-index: 2; pointer-events: none;
+  top: clamp(16px, 3vw, 34px); left: max(18px, calc((100% - 1180px) / 2));
+  display: flex; align-items: baseline; gap: 6px;
+  font-family: var(--la-display); line-height: .8; color: #fff;
+}
+.la-num b {
+  font-weight: 400; font-size: clamp(56px, 8vw, 104px); letter-spacing: .02em;
+  color: transparent; -webkit-text-stroke: 1.4px rgba(255,255,255,.75);
+}
+.la-num i { font-style: normal; font-size: clamp(16px, 1.6vw, 20px); letter-spacing: .12em; color: var(--accent); }
+
+/* ---------- Envoltorio del libro con adornos ---------- */
+.la-wrap { position: relative; width: 100%; max-width: 360px; perspective: 1400px; }
+.la-wrap .cover-book { max-width: none; z-index: 1; }
+
+/* Esténcil: el trazo del calco, corrido y girado detrás del libro */
+.la-stencil {
+  position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%;
+  overflow: visible; pointer-events: none;
+  transform: translate(14px, 14px) rotate(2.2deg);
+}
+.cover:nth-child(even) .la-stencil { transform: translate(-14px, 14px) rotate(-2.2deg); }
+.la-stencil rect { fill: none; vector-effect: non-scaling-stroke; }
+.la-st-dash { stroke: rgba(255,255,255,.4); stroke-width: 1.2; stroke-dasharray: 2 7; }
+.la-st-line {
+  stroke: var(--accent); stroke-width: 2.2;
+  stroke-dasharray: 100; stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.8s cubic-bezier(.6, .1, .2, 1) .25s;
+}
+
+/* Destellos de flash tradicional */
+.la-spark { position: absolute; z-index: 3; pointer-events: none; color: #fff; line-height: 0; }
+.la-spark svg { width: 100%; height: 100%; fill: currentColor; stroke: none; }
+.la-spark.s1 { width: 34px; height: 34px; top: -16px; left: -18px; color: var(--accent); }
+.la-spark.s2 { width: 26px; height: 26px; bottom: 10%; right: -22px; }
+.la-spark.s3 { width: 16px; height: 16px; bottom: -14px; left: 18%; color: #ffd23f; }
+.la-spark { animation: la-twinkle 3.4s ease-in-out infinite; }
+.la-spark.s2 { animation-delay: -1.1s; }
+.la-spark.s3 { animation-delay: -2.3s; }
+@keyframes la-twinkle {
+  0%, 100% { transform: scale(1) rotate(0); opacity: 1; }
+  45% { transform: scale(.55) rotate(45deg); opacity: .55; }
+  60% { transform: scale(1.15) rotate(60deg); opacity: 1; }
+}
+
+/* Sello giratorio */
+.la-badge {
+  position: absolute; z-index: 4; pointer-events: none;
+  width: clamp(76px, 9vw, 104px); aspect-ratio: 1;
+  top: 0; right: 0; translate: 38% -38%;
+  rotate: calc(var(--t, 0) * 140deg);
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,.45));
+  transition: scale .7s cubic-bezier(.3, 1.6, .5, 1) .5s, opacity .4s .5s;
+}
+.cover:nth-child(even) .la-badge { right: auto; left: 0; translate: -38% -38%; }
+.la-badge svg { width: 100%; height: 100%; stroke: none; animation: la-spin 22s linear infinite; }
+.la-b-bg { fill: var(--accent); }
+.la-b-ring { fill: none; stroke: rgba(255,255,255,.9); stroke-width: 1.4; stroke-dasharray: 1.5 3.5; }
+.la-badge text { font-family: var(--la-display); font-size: 13px; letter-spacing: .5px; fill: #fff; }
+.la-b-star { fill: #fff; }
+@keyframes la-spin { to { transform: rotate(360deg); } }
+
+/* Brillo que recorre la tapa */
+.la-sheen {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(105deg, rgba(255,255,255,0) 38%, rgba(255,255,255,.2) 50%, rgba(255,255,255,0) 62%) no-repeat;
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  transition: background-position 1.1s cubic-bezier(.2, .7, .2, 1);
+}
+@media (hover: hover) {
+  .cover:hover .la-sheen { background-position: 0% 0; }
+}
+
+/* ---------- Texto de la portada ---------- */
+.cover-info h2, .site-footer h2, .intro h1, .book-title {
+  /* La ligadura "fi" de Comforter Brush deja un hueco (Serigrafi a) */
+  font-variant-ligatures: no-common-ligatures;
+}
+.cover-info h2 {
+  overflow-wrap: normal; word-break: normal; hyphens: none;
+  text-shadow: 0 6px 30px rgba(0,0,0,.45);
+  margin-bottom: 0;
+  clip-path: inset(-40% -15% -50% -15%);
+  transition: clip-path 1.3s cubic-bezier(.6, .1, .2, 1) .05s;
+}
+.la-brush {
+  display: block; width: min(78%, 340px); height: 22px;
+  margin: -.1em 0 22px -4px; overflow: visible;
+}
+.la-brush path {
+  fill: none; stroke: var(--accent); stroke-width: 7; stroke-linecap: round;
+  stroke-dasharray: 100; stroke-dashoffset: 0;
+  vector-effect: non-scaling-stroke;
+  transition: stroke-dashoffset 1s cubic-bezier(.6, .1, .2, 1) .5s;
+}
+.la-brush path.thin { stroke-width: 2.5; opacity: .7; transition-delay: .7s; }
+.cover-info p, .cover-info .cover-btn {
+  transition: opacity .7s ease, translate .8s cubic-bezier(.2, .7, .2, 1);
+}
+.cover-info p { transition-delay: .6s; }
+.cover-info .cover-btn { transition-delay: .75s; }
+
+/* Botón con pulso de tinta */
+.cover-btn { position: relative; isolation: isolate; letter-spacing: .02em; box-shadow: 0 10px 24px color-mix(in srgb, var(--accent) 35%, transparent); }
+.cover-btn::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+  border: 2px solid var(--accent);
+  animation: la-pulse 2.6s ease-out infinite;
+}
+@keyframes la-pulse {
+  0% { transform: scale(1); opacity: .8; }
+  70%, 100% { transform: scale(1.35, 1.6); opacity: 0; }
+}
+
+/* ---------- Estados de entrada (solo si hay animación) ---------- */
+body.la-anim .la-wrap { transition: opacity .9s ease, translate 1.1s cubic-bezier(.2, .7, .2, 1); }
+body.la-anim .la-wrap:not(.la-in) { opacity: 0; translate: 0 40px; }
+body.la-anim .la-wrap:not(.la-in) .la-st-line { stroke-dashoffset: 100; }
+body.la-anim .la-wrap:not(.la-in) .la-badge { scale: .3; opacity: 0; }
+body.la-anim .la-wrap:not(.la-in) .la-spark { opacity: 0; }
+body.la-anim .cover-info:not(.la-in) h2 { clip-path: inset(-40% 105% -50% -15%); }
+body.la-anim .cover-info:not(.la-in) .la-brush path { stroke-dashoffset: 100; }
+body.la-anim .cover-info:not(.la-in) p,
+body.la-anim .cover-info:not(.la-in) .cover-btn { opacity: 0; translate: 0 16px; }
+
+/* ---------- Cinta marquesina (antes del pie) ---------- */
+.la-tape { position: relative; height: clamp(130px, 14vw, 190px); overflow: hidden; background: var(--bg); }
+.la-band {
+  position: absolute; left: -10%; width: 120%; top: 50%;
+  padding: 9px 0 6px; white-space: nowrap; overflow: hidden;
+  font-family: var(--la-display); font-size: clamp(26px, 3.2vw, 40px); line-height: 1; letter-spacing: .05em;
+  text-transform: uppercase;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+.la-band.b1 { background: var(--accent); color: var(--la-ink); transform: translateY(-50%) rotate(-4deg); }
+.la-band.b2 { background: var(--la-cream); color: var(--la-ink); transform: translateY(-50%) rotate(3deg); }
+.la-track { display: inline-flex; align-items: center; gap: 22px; padding-right: 22px; animation: la-marq 38s linear infinite; }
+.la-band.b2 .la-track { animation-direction: reverse; animation-duration: 46s; }
+.la-track em { font-style: normal; font-size: .7em; }
+.la-band.b1 .la-track em { color: #fff; }
+.la-band.b2 .la-track em { color: var(--accent); }
+@keyframes la-marq { to { transform: translateX(-50%); } }
+
+/* ---------- Escritorio: que el pincel quede alineado al texto ---------- */
+@media (min-width: 761px) {
+  .cover-info h2 { margin-bottom: 4px; }
+  /* El número va del lado del texto, nunca encima de la tapa */
+  .cover:nth-child(odd) .la-num { left: auto; right: max(24px, calc((100% - 1180px) / 2)); }
+}
+
+/* =========================================================
+   CELULAR
+   ========================================================= */
+@media (max-width: 760px) {
+  /* Cada portada ocupa la pantalla, como una historia */
+  .cover, .cover:nth-child(even) {
+    min-height: calc(100svh - var(--header-h));
+    padding: 74px 18px 52px;
+    align-content: center; gap: 30px;
+  }
+  .cover::after {
+    background:
+      radial-gradient(120% 70% at 50% 35%, transparent 0%, rgba(0,0,0,.35) 100%),
+      linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,.1) 38%, rgba(0,0,0,.72) 100%);
+  }
+  /* Fondo más presente: la foto se reconoce detrás */
+  .cover-bg { filter: blur(14px) saturate(1.25) brightness(.72); }
+  .cover::before { opacity: .6; }
+
+  .la-num { top: 16px; left: 18px; }
+  .la-num b { font-size: 64px; }
+
+  /* Portada grande: hasta 80% del ancho, sin pasarse del alto de pantalla */
+  .la-wrap {
+    width: min(80vw, 380px, calc((100svh - var(--header-h) - 300px) * var(--r, .75)));
+    max-width: none; margin: 0 auto;
+  }
+  .parallax .cover { --par-art: 16px; --par-info: 6px; }
+
+  /* Giro 3D según el scroll (reemplaza el hover de escritorio) */
+  .covers > .cover .la-wrap > .cover-book,
+  .covers > .cover:hover .la-wrap > .cover-book {
+    max-width: none; transform-origin: center center;
+    transform: rotateY(calc(var(--t, 0) * -30deg)) rotateX(calc(var(--t, 0) * 7deg)) scale(calc(1 - var(--ta, 0) * .07));
+    transition: transform .12s linear;
+    box-shadow: calc(var(--t, 0) * 26px + 4px) 30px 50px rgba(0,0,0,.55), 2px 4px 10px rgba(0,0,0,.35);
+  }
+  .covers > .cover:nth-child(even) .la-wrap > .cover-book,
+  .covers > .cover:nth-child(even):hover .la-wrap > .cover-book {
+    transform: rotateY(calc(var(--t, 0) * 30deg)) rotateX(calc(var(--t, 0) * 7deg)) scale(calc(1 - var(--ta, 0) * .07));
+    box-shadow: calc(var(--t, 0) * -26px - 4px) 30px 50px rgba(0,0,0,.55), 2px 4px 10px rgba(0,0,0,.35);
+  }
+  .covers > .cover-group .la-wrap > .cover-book { box-shadow:
+    10px -10px 0 -1px rgba(255,255,255,.55), 10px -10px 0 0 rgba(0,0,0,.25),
+    20px -20px 0 -2px rgba(255,255,255,.3), 20px -20px 0 -1px rgba(0,0,0,.2),
+    0 30px 50px rgba(0,0,0,.5); }
+  .la-sheen { background-position: calc(50% - var(--t, 0) * 70%) 0; transition: background-position .12s linear; }
+
+  /* Toque: la portada se hunde un poco */
+  .cover:active .la-wrap { scale: .97; transition: scale .15s; }
+
+  .la-badge { width: 86px; translate: 34% -34%; }
+  /* En las pares el sello baja a la esquina inferior para no pisar el número */
+  .cover:nth-child(even) .la-badge { top: auto; bottom: 0; translate: -30% 30%; }
+  .la-stencil, .cover:nth-child(even) .la-stencil { transform: translate(10px, 12px) rotate(2deg); }
+  .cover:nth-child(even) .la-stencil { transform: translate(-10px, 12px) rotate(-2deg); }
+
+  /* Título grande y centrado */
+  .cover-info h2 { font-size: calc(clamp(1.9rem, 9.5vw, 3rem) * var(--title-scale)); line-height: .95; }
+  .la-brush { margin: -.05em auto 18px; width: min(72%, 300px); }
+  .cover-info p { font-size: 1rem; margin-bottom: 22px; }
+  .cover-btn { padding: 14px 28px; font-size: 1.05rem; }
+
+  /* Libro: barra inferior tipo cápsula de vidrio */
+  .book-ui { padding: 0 4px calc(env(safe-area-inset-bottom) * .5); }
+  .book-bar {
+    padding: 4px; border-radius: 999px;
+    background: color-mix(in srgb, var(--bg) 60%, transparent);
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    border: 1px solid var(--line);
+  }
+  .book-title { font-family: var(--font-title); font-size: 1.6rem; line-height: 1; font-weight: 400; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .covers > .cover .la-wrap > .cover-book { transform: none !important; }
+  .la-badge svg, .la-spark, .la-track, .cover-btn::after { animation: none !important; }
+}
