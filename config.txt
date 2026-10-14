@@ -33,7 +33,7 @@ color_texto_claro: #1b1a18
 color_acento: #f50000
 
 # Tipografías de Google Fonts (escribí el nombre tal cual aparece en fonts.google.com)
-fuente_titulos: Comforter Brush
+fuente_titulos: Limelight
 fuente_texto: Clarity City
 
 # Cabecera (siempre en una fila, del alto del logo):
